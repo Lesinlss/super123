@@ -1,0 +1,21 @@
+```python
+import random
+
+# 设置随机数范围
+min_value = 0
+max_value = 100
+
+# 生成随机数的个数
+num_of_random_numbers = int(input("请输入生成随机数的个数: "))
+
+# 设置随机数是否可重复
+allow_duplicates = True if input("是否允许随机数重复(Y/N): ").lower() == 'y' else False
+
+# 生成随机数
+random_numbers = [random.randint(min_value, max_value) for _ in range(num_of_random_numbers)]
+
+# 检查随机数是否重复
+if allow_duplicates:
+    print(random_numbers)
+else:
+    print("随机数不能重复，请重新输入。")
