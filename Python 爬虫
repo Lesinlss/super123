@@ -1,0 +1,33 @@
+import requests  
+from bs4 import BeautifulSoup  
+import os  
+  
+def save_image(img_url, save_path):  
+    response = requests.get(img_url, stream=True)  
+    with open(save_path, 'wb') as out_file:  
+        out_file.write(response.content)  
+  
+def main(url, output_folder):  
+    try:  
+        response = requests.get(url)  
+        response.raise_for_status()  # 检查请求是否成功  
+        soup = BeautifulSoup(response.text, 'html.parser')  
+        images = soup.find_all('img')  # 查找页面上的所有图片标签  
+        for img in images:  
+            img_url = img.attrs.get('src')  # 获取图片的URL  
+            if img_url and not os.path.exists(output_folder):  
+                os.makedirs(output_folder)  # 创建保存路径  
+            save_path = os.path.join(output_folder, img_url.split('/')[-1])  # 构建保存路径  
+            save_image(img_url, save_path)  # 下载图片并保存到指定路径  
+            print(f"Downloaded {img_url} to {save_path}")  
+    except requests.RequestException as e:  
+        print(f"Error fetching the URL: {e}")  
+    except (ValueError, KeyError) as e:  
+        print(f"Could not find images in the URL: {e}")  
+    except Exception as e:  
+        print(f"An error occurred: {e}")  
+  
+if __name__ == "__main__":  
+    url = input("请输入要爬取的网页URL：")  
+    output_folder = input("请输入图片保存的文件夹路径（不包含图片文件名）：")  
+    main(url, output_folder)
