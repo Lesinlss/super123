@@ -1,0 +1,48 @@
+import random  
+import time  
+  
+# 定义樱花类  
+class Sakura:  
+    def __init__(self, x, y):  
+        self.x = x  
+        self.y = y  
+        self.size = random.randint(1, 3)  
+        self.speed = random.randint(1, 3)  
+        self.color = (random.randint(200, 255), random.randint(180, 220), random.randint(100, 150))  
+      
+    def draw(self, win):  
+        # 使用Pygame绘制樱花  
+        pygame.draw.circle(win, self.color, (self.x, self.y), self.size)  
+        pygame.draw.circle(win, (255, 255, 255), (self.x, self.y), self.size // 2)  
+      
+    def move(self):  
+        # 更新樱花位置  
+        self.y += self.speed  
+        if self.y > 400:  # 樱花下落范围为0-400像素  
+            self.y = 0  
+            self.x = random.randint(-200, 200)  # 随机生成新的x坐标
+import pygame  
+import sys  
+  
+# 初始化Pygame  
+pygame.init()  
+win = pygame.display.set_mode((800, 600))  
+pygame.display.set_caption("樱花飘落")  
+clock = pygame.time.Clock()  
+  
+# 创建樱花列表  
+sakuras = []  
+for i in range(100):  # 生成100个樱花对象，可根据需要调整数量  
+    x = random.randint(0, 800)  # 随机生成x坐标，范围为0-800像素  
+    sakuras.append(Sakura(x, 400))  # 在y=400处生成樱花对象，可根据需要调整高度  
+      
+while True:  # 主循环  
+    for event in pygame.event.get():  # 处理事件队列中的事件  
+        if event.type == pygame.QUIT:  # 如果用户点击了关闭按钮，退出程序  
+            pygame.quit()  
+            sys.exit()  
+    win.fill((0, 0, 0))  # 将窗口背景色设置为黑色  
+    for sakura in sakuras:  # 遍历樱花列表，绘制和移动樱花对象  
+        sakura.draw(win)  # 绘制樱花对象在当前位置上，并使用给定的颜色和大小  
+        sakura.move()  # 更新樱花对象的位置，使其下落并重新生成新的x坐标  
+    pygame.display.update()  # 更新显示窗口，显示绘制的内容
