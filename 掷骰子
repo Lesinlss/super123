@@ -1,0 +1,36 @@
+import random  
+  
+def roll_dice(num_rolls):  
+    """  
+    模拟掷骰子num_rolls次，并返回每次掷出的点数列表和这些点数的总和。  
+    """  
+    # 初始化一个空列表来存储每次掷出的点数  
+    dice_rolls = []  
+      
+    # 循环num_rolls次，每次掷骰子并将结果添加到列表中  
+    for _ in range(num_rolls):  
+        roll = random.randint(1, 6)  # 掷骰子，获取1到6之间的随机数  
+        dice_rolls.append(roll)  
+        print(f"掷出了: {roll}")  
+      
+    # 计算并返回所有点数的总和  
+    total = sum(dice_rolls)  
+    return dice_rolls, total  
+  
+def main():  
+    try:  
+        # 让用户输入他们想要掷骰子的次数  
+        num_rolls = int(input("请输入你想要掷骰子的次数: "))  
+          
+        # 调用roll_dice函数并获取结果  
+        dice_rolls, total = roll_dice(num_rolls)  
+          
+        # 打印结果  
+        print(f"你掷出的所有点数为: {dice_rolls}")  
+        print(f"这些点数的总和为: {total}")  
+    except ValueError:  
+        # 如果用户输入的不是整数，则打印错误信息  
+        print("请输入一个有效的整数！")  
+  
+if __name__ == "__main__":  
+    main()
